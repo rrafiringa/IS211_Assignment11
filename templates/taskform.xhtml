@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{{ app_name }}</title>
+    <style type="text/css">
+        table, th, td {
+            border: 1px solid black;
+        }
+        li {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="desc">
+        <h3>{{ app_entry }}</h3>
+    </div>
+    <div id="errors">
+        <ul>
+            {% for error in errors %}
+            <li><strong>{{ error }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="createArea">
+        <form name="frmCreate" action="/submit" method="post">
+        <table id="tblCreate">
+            <tr>
+                <td>
+                    <strong>Task:</strong>
+                </td>
+                <td>
+                    <input name="task" type="text" tabindex="1"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Email:</strong>
+                </td>
+                <td>
+                    <input name="email" type="text" tabindex="2"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Priority:</strong>
+                </td>
+                <td>
+                    <select name="priority" tabindex="3">
+                        <option value="Low" selected="selected">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input name="btnEntry" type="submit" value="Add To Do Item" tabindex="4"/>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+    <div id="listArea">
+        <h3>{{ app_display }}</h3>
+        <div>
+            <form name="frmClear" action="/clear" method="post">
+                <input name="clear" type="hidden" value="0" />
+                <input name="btnClear" type="submit" value="Clear Todo List" tabindex="5" />
+            </form>
+        </div>
+        <div>
+            <table id="tblDisplay">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Assigned To</th>
+                        <th>Priority</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name,email,priority in tasks %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ email }}</td>
+                        <td>{{ priority }}</td>
+                        <td>
+                            <form name="frmClearOne" action="/clear" method="post">
+                                <input name="clear" type="hidden" value={{ loop.index }} />
+                                <input name="btnDel" type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
